@@ -68,7 +68,21 @@ const part1 = (rawInput: string) => {
 const part2 = (rawInput: string) => {
   const input = parseInput(rawInput);
 
-  return;
+  const powers = input.map(game => {
+    const max = game.rounds.reduce<Record<Color, number>>((acc, round) => {
+      round.forEach(cubes => {
+        acc[cubes.color] = Math.max(acc[cubes.color], cubes.count)
+      })
+      return acc
+    }, {red: 0, green: 0, blue: 0})
+
+    const power = max.red * max.green * max.blue
+    return power
+  })
+
+  const sum = powers.reduce<number>((acc, curr) => acc + curr, 0)
+
+  return sum.toString();
 };
 
 run({
