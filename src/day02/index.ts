@@ -1,7 +1,9 @@
 import run from "aocrunner";
 
+type Color = 'red' | 'green' | 'blue'
+
 interface Cubes {
-  color: 'red' | 'green' | 'blue'
+  color: Color
   count: number
 }
 
@@ -38,16 +40,29 @@ const parseCubes = (cubes: string): Cubes => {
   const [count, color] = cubes.trim().split(' ')
 
   return {
-    color: color as 'red' | 'green' | 'blue',
+    color: color as Color,
     count: parseInt(count),
   }
 }
 
 const part1 = (rawInput: string) => {
   const input = parseInput(rawInput);
-  console.log(JSON.stringify(input, null, 2))
 
-  return;
+  const max: Record<Color, number> = {
+    red: 12,
+    green: 13,
+    blue: 14,
+  }
+  let possibleGameIdsSum = 0
+
+  input.forEach(game => {
+    const gameIsPossible = game.rounds.every(round => round.every(cubes => cubes.count <= max[cubes.color]))
+    if (gameIsPossible) {
+      possibleGameIdsSum += game.id
+    }
+  })
+  
+  return possibleGameIdsSum.toString();
 };
 
 const part2 = (rawInput: string) => {
@@ -76,5 +91,5 @@ run({
     solution: part2,
   },
   trimTestInputs: true,
-  onlyTests: true,
+  onlyTests: false,
 });
