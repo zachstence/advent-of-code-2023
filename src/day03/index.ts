@@ -47,8 +47,6 @@ const parseInput = (rawInput: string): ParsedInput => {
 
 const part1 = (rawInput: string) => {
   const input = parseInput(rawInput);
-  // console.log(rawInput)
-  // console.log(JSON.stringify(input, null, 2))
   
   const sum = input.numbers.reduce<number>((sum, number) => {
     const isPartNumber = input.parts.some(part => areMatchesAdjacent(number, part))
@@ -91,7 +89,6 @@ const areMatchesAdjacent = (a: Match, b: Match): boolean => {
   // If in adjacent rows, columns must overlap
   if (adjacentRow) {
     const overlap = areRangesAdjacent(a.columns, b.columns)
-    // console.log('adjacentRow', {a, b, overlap})
     return overlap
   }
 
