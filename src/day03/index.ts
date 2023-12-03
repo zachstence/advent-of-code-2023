@@ -62,7 +62,18 @@ const part1 = (rawInput: string) => {
 const part2 = (rawInput: string) => {
   const input = parseInput(rawInput);
 
-  return;
+  const sum = input.parts.reduce<number>((sum, part) => {
+    if (part.content !== '*') return sum
+
+    const adjacentNumbers = input.numbers.filter(number => areMatchesAdjacent(part, number))
+    if (adjacentNumbers.length !== 2) return sum
+
+    const [{ content: number1Content }, { content: number2Content }] = adjacentNumbers as [Match, Match]
+    const gearRatio = parseInt(number1Content) * parseInt(number2Content)
+    return sum + gearRatio
+  }, 0)
+
+  return sum.toString();
 };
 
 const areMatchesAdjacent = (a: Match, b: Match): boolean => {
@@ -123,12 +134,7 @@ run({
     solution: part1,
   },
   part2: {
-    tests: [
-      // {
-      //   input: ``,
-      //   expected: "",
-      // },
-    ],
+    tests: [],
     solution: part2,
   },
   trimTestInputs: true,
