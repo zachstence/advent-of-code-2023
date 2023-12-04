@@ -62,13 +62,13 @@
           "790",
           "784"
         ],
-        "time": 1.641794
+        "time": 1.501164
       },
       "part2": {
-        "solved": false,
-        "result": null,
+        "solved": true,
+        "result": "9881048",
         "attempts": [],
-        "time": null
+        "time": 3733.158299
       }
     },
     {

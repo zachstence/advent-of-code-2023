@@ -40,7 +40,21 @@ const part1 = (rawInput: string) => {
 const part2 = (rawInput: string) => {
   const input = parseInput(rawInput);
 
-  return;
+  let numCards = 0
+
+  const indicesToProcess = input.map(card => card.index)
+  while (indicesToProcess.length > 0) {
+    numCards++
+
+    const index = indicesToProcess.shift()!
+    const card = input[index]
+    if (!card) continue
+
+    const wonIndices = Array.from({ length: card.numMatches }).map((_, i) => card.index + 1 + i)
+    indicesToProcess.unshift(...wonIndices)
+  }
+
+  return numCards.toString();
 };
 
 run({
