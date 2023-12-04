@@ -1,27 +1,34 @@
 import run from "aocrunner";
 
 type Card = {
+  index: number
   winningNumbers: number[]
   yourNumbers: number[]
+  numMatches: number
 }
 
 type ParsedInput = Card[]
+
+const getNumMatches = (winningNumbers: number[], yourNumbers: number[]): number => yourNumbers.filter(yourNumber => winningNumbers.includes(yourNumber)).length
 
 const parseInput = (rawInput: string): ParsedInput => {
   return rawInput.split('\n').map((line, i) => {
     const [winningNumbersStr, yourNumbersStr] = line.replaceAll(/Card +\d+: /g, '').split(' | ')
     const winningNumbers = winningNumbersStr.split(' ').filter(x => x.length).map(x => parseInt(x))
     const yourNumbers = yourNumbersStr.split(' ').filter(x => x.length).map(x => parseInt(x))
-    return { winningNumbers, yourNumbers }
+    return {
+      index: i,
+      winningNumbers,
+      yourNumbers,
+      numMatches: getNumMatches(winningNumbers, yourNumbers),
+    }
   })
 };
 
 const part1 = (rawInput: string) => {
   const input = parseInput(rawInput);
   
-  const sum = input.reduce<number>((sum, card) => {
-    const matches = card.yourNumbers.filter(yourNumber => card.winningNumbers.includes(yourNumber))
-    const numMatches = matches.length
+  const sum = input.reduce<number>((sum, { numMatches }) => {
     if (numMatches === 0) return sum
     const cardValue = Math.pow(2, numMatches - 1)
     return sum + cardValue
